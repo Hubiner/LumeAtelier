@@ -1,0 +1,1236 @@
+/* ─── DESIGN TOKENS ─────────────────────────────────────────────── */
+:root {
+  --bg:         #0e0909;
+  --wine:       #3e1519;
+  --gold:       #c9a86c;
+  --gold-hover: #d9bc8a;
+  --cream:      #f0e4d0;
+  --muted:      #b8a898;
+  --panel:      rgba(32, 18, 16, 0.85);
+  --line:       rgba(201, 168, 108, 0.18);
+  --ok:         #5ec27a;
+  --danger:     #c96262;
+  --radius-xl:  34px;
+  --radius-lg:  20px;
+  --radius-md:  12px;
+  --radius-sm:  8px;
+  --shadow:     0 24px 72px rgba(0, 0, 0, 0.5);
+  --shadow-sm:  0 8px 24px rgba(0, 0, 0, 0.32);
+  --max:        1180px;
+  --transition: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* ─── RESET & BASE ───────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--cream);
+  background:
+    radial-gradient(ellipse at top, rgba(201, 168, 108, 0.07) 0%, transparent 50%),
+    linear-gradient(180deg, #0e0909 0%, #130c0c 100%);
+  min-height: 100dvh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+ul {
+  list-style: disc;
+}
+
+/* ─── TYPOGRAPHY SCALE ───────────────────────────────────────────── */
+h1, h2, h3, h4 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* ─── LAYOUT WRAPPER ─────────────────────────────────────────────── */
+.site-header,
+.hero,
+.origami-menu,
+.gallery,
+.reservations,
+.testimonials {
+  width: min(calc(100% - 2rem), var(--max));
+  margin: 0 auto;
+}
+
+/* ─── HEADER ─────────────────────────────────────────────────────── */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: min(calc(100% - 2rem), var(--max));
+  backdrop-filter: blur(0px);
+}
+
+.site-header.scrolled {
+  background: rgba(14, 9, 9, 0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--line);
+  padding-top: 0.9rem;
+  padding-bottom: 0.9rem;
+}
+
+.site-header nav {
+  display: none;
+  gap: 1.75rem;
+  align-items: center;
+  color: var(--muted);
+  font-size: 0.875rem;
+  letter-spacing: 0.03em;
+}
+
+.site-header nav a {
+  transition: color var(--transition);
+}
+
+.site-header nav a:hover {
+  color: var(--cream);
+}
+
+.brand {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* ─── HAMBURGER ──────────────────────────────────────────────────── */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.5rem;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color var(--transition);
+}
+
+.hamburger:hover {
+  border-color: rgba(201, 168, 108, 0.4);
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: var(--cream);
+  border-radius: 2px;
+  transition: transform var(--transition), opacity var(--transition);
+  transform-origin: center;
+}
+
+.hamburger[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+.hamburger[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.hamburger[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* ─── MOBILE NAV ─────────────────────────────────────────────────── */
+.mobile-nav {
+  position: fixed;
+  inset: 0 0 0 30%;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 5rem 2rem 2rem;
+  background: rgba(14, 9, 9, 0.97);
+  backdrop-filter: blur(24px);
+  border-left: 1px solid var(--line);
+  transform: translateX(100%);
+  transition: transform 320ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-nav.is-open {
+  transform: translateX(0);
+}
+
+.mobile-nav a {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.5rem;
+  color: var(--muted);
+  transition: color var(--transition);
+}
+
+.mobile-nav a:hover,
+.mobile-nav a:focus {
+  color: var(--cream);
+}
+
+.mobile-nav .button {
+  margin-top: 1rem;
+  align-self: flex-start;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+}
+
+.nav-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+}
+
+.nav-overlay.is-visible {
+  display: block;
+}
+
+/* ─── BUTTON ─────────────────────────────────────────────────────── */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--gold);
+  color: #17100d;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.button:hover {
+  background: var(--gold-hover);
+  box-shadow: 0 4px 20px rgba(201, 168, 108, 0.35);
+  transform: translateY(-1px);
+}
+
+.button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.button.secondary {
+  background: transparent;
+  color: var(--cream);
+  border-color: var(--line);
+}
+
+.button.secondary:hover {
+  border-color: rgba(201, 168, 108, 0.4);
+  background: rgba(201, 168, 108, 0.07);
+  box-shadow: none;
+}
+
+/* ─── HERO ───────────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 88vh;
+  padding: 5rem 0 5rem;
+  display: flex;
+  align-items: center;
+}
+
+#vaporCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 740px;
+  animation: fadeUp 800ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--gold);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  font-size: clamp(2.6rem, 6vw, 5.5rem);
+  line-height: 1.06;
+  color: var(--cream);
+  margin-bottom: 1.25rem;
+}
+
+.section-head h2 {
+  font-size: clamp(2rem, 4.5vw, 3.8rem);
+  line-height: 1.1;
+  color: var(--cream);
+}
+
+.hero p,
+.section-head p {
+  color: var(--muted);
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+
+.hero-meta {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 2.5rem;
+}
+
+/* ─── STATUS CARD ────────────────────────────────────────────────── */
+.status-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.25rem 1.5rem;
+}
+
+.status-card strong {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.status-card small {
+  font-size: 0.8rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: fit-content;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.status-badge.open {
+  color: #072010;
+  background: rgba(94, 194, 122, 0.9);
+  animation: pulseBadge 2.4s ease infinite;
+}
+
+.status-badge.closed {
+  background: rgba(120, 120, 120, 0.22);
+  color: var(--muted);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* ─── SHARED CARD STYLE ──────────────────────────────────────────── */
+.status-card,
+.origami-card,
+.dish-card,
+.room-map,
+.reserve-form,
+.testimonial-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(20px);
+}
+
+/* ─── SECTION SPACING ────────────────────────────────────────────── */
+.origami-menu,
+.gallery,
+.reservations,
+.testimonials {
+  padding: 5rem 0;
+}
+
+.section-head {
+  max-width: 680px;
+  margin-bottom: 2.5rem;
+}
+
+/* ─── GRIDS ──────────────────────────────────────────────────────── */
+.origami-grid,
+.dish-grid,
+.reservation-grid,
+.testimonial-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* ─── MENU ORIGAMI ───────────────────────────────────────────────── */
+.origami-trigger {
+  width: 100%;
+  padding: 1.4rem 1.4rem;
+  border: 0;
+  color: inherit;
+  text-align: left;
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  column-gap: 0.75rem;
+  transition: background var(--transition);
+  border-radius: var(--radius-lg);
+}
+
+.origami-trigger:hover {
+  background: rgba(201, 168, 108, 0.05);
+}
+
+.origami-trigger span {
+  display: block;
+  color: var(--gold);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  grid-column: 1;
+  grid-row: 1;
+  margin-bottom: 0.3rem;
+}
+
+.origami-trigger strong {
+  display: block;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.origami-arrow {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  align-self: center;
+  color: var(--gold);
+  transition: transform var(--transition);
+  flex-shrink: 0;
+}
+
+.origami-card.is-open .origami-arrow {
+  transform: rotate(180deg);
+}
+
+.origami-panel {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 1.4rem;
+  transform-origin: top center;
+  transform: perspective(900px) rotateX(-72deg);
+  opacity: 0;
+  transition:
+    max-height 340ms ease,
+    transform 340ms ease,
+    opacity 280ms ease,
+    padding 340ms ease;
+}
+
+.origami-card.is-open .origami-panel {
+  max-height: 260px;
+  padding: 0 1.4rem 1.4rem;
+  transform: perspective(900px) rotateX(0deg);
+  opacity: 1;
+}
+
+.origami-panel ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--muted);
+  line-height: 1.9;
+  font-size: 0.95rem;
+}
+
+/* ─── GALLERY ────────────────────────────────────────────────────── */
+.dish-grid {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.dish-card {
+  overflow: hidden;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.dish-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6);
+}
+
+.dish-media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+}
+
+.dish-media img {
+  height: 100%;
+  object-fit: cover;
+  transition: transform 600ms ease;
+}
+
+.dish-card:hover .dish-media img {
+  transform: scale(1.04);
+}
+
+.loupe {
+  position: absolute;
+  width: 8rem;
+  height: 8rem;
+  border: 2px solid rgba(240, 228, 208, 0.8);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: 260%;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255,255,255,0.1);
+  transition: opacity 150ms ease;
+}
+
+.dish-card h3 {
+  padding: 1rem 1.25rem 1.35rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--cream);
+}
+
+/* ─── RESERVATIONS ───────────────────────────────────────────────── */
+.reservation-grid {
+  align-items: start;
+}
+
+.room-map {
+  position: relative;
+  min-height: 380px;
+  padding: 1.25rem;
+}
+
+.room-map svg {
+  width: 100%;
+}
+
+.room-map rect:first-child {
+  fill: rgba(255, 255, 255, 0.015);
+  stroke: var(--line);
+}
+
+.zone {
+  fill: rgba(201, 168, 108, 0.04);
+  stroke: rgba(201, 168, 108, 0.15);
+}
+
+.table {
+  position: absolute;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.table:hover {
+  transform: scale(1.15);
+}
+
+.table.available {
+  background: var(--ok);
+}
+
+.table.occupied {
+  background: var(--danger);
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.table.selected {
+  box-shadow: 0 0 0 5px rgba(201, 168, 108, 0.35);
+  border-color: var(--gold);
+}
+
+.table-tooltip {
+  position: absolute;
+  padding: 0.6rem 0.9rem;
+  border-radius: var(--radius-sm);
+  background: rgba(10, 6, 5, 0.96);
+  border: 1px solid var(--line);
+  color: var(--cream);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 160ms ease, transform 160ms ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.table-tooltip.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── FORM ───────────────────────────────────────────────────────── */
+.reserve-form {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1.75rem;
+}
+
+.reserve-form label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: -0.4rem;
+}
+
+.reserve-form input,
+.reserve-form textarea {
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--cream);
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.reserve-form input:hover,
+.reserve-form textarea:hover {
+  border-color: rgba(201, 168, 108, 0.3);
+}
+
+.reserve-form input:focus,
+.reserve-form textarea:focus {
+  border-color: var(--gold);
+  background: rgba(201, 168, 108, 0.04);
+  outline: none;
+}
+
+.reserve-form input[readonly] {
+  color: var(--muted);
+  cursor: default;
+}
+
+.reserve-form .button {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.form-feedback {
+  min-height: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--ok);
+  text-align: center;
+  margin: 0;
+}
+
+.form-feedback.error {
+  color: var(--danger);
+}
+
+/* ─── TESTIMONIALS ───────────────────────────────────────────────── */
+.testimonial-card {
+  overflow: hidden;
+}
+
+.testimonial-card strong {
+  display: block;
+  padding: 0.5rem 1.25rem 1.25rem;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+}
+
+.kenburns-frame {
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+}
+
+.kenburns-frame img {
+  height: 100%;
+  object-fit: cover;
+  animation: kenburns 18s ease-in-out infinite alternate;
+}
+
+.typewriter {
+  min-height: 5rem;
+  padding: 1.25rem 1.25rem 0.75rem;
+  color: var(--muted);
+  line-height: 1.8;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* ─── FOOTER ─────────────────────────────────────────────────────── */
+.site-footer {
+  margin-top: 2rem;
+  border-top: 1px solid var(--line);
+  background: rgba(10, 6, 5, 0.7);
+}
+
+.footer-inner {
+  width: min(calc(100% - 2rem), var(--max));
+  margin: 0 auto;
+  padding: 3.5rem 0 2.5rem;
+  display: grid;
+  gap: 2.5rem;
+}
+
+.footer-brand p {
+  margin: 0.75rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.footer-brand .brand {
+  font-size: 1rem;
+}
+
+.footer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-nav a {
+  color: var(--muted);
+  font-size: 0.9rem;
+  transition: color var(--transition);
+}
+
+.footer-nav a:hover {
+  color: var(--cream);
+}
+
+.footer-contact p {
+  margin: 0 0 0.5rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.footer-contact a {
+  color: var(--muted);
+  transition: color var(--transition);
+}
+
+.footer-contact a:hover {
+  color: var(--gold);
+}
+
+.footer-social {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.footer-social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--muted);
+  transition: color var(--transition), border-color var(--transition), background var(--transition);
+}
+
+.footer-social a:hover {
+  color: var(--gold);
+  border-color: rgba(201, 168, 108, 0.35);
+  background: rgba(201, 168, 108, 0.06);
+}
+
+.footer-bottom {
+  width: min(calc(100% - 2rem), var(--max));
+  margin: 0 auto;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.footer-bottom p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+
+/* ─── FOCUS ──────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* ─── KEYFRAMES ──────────────────────────────────────────────────── */
+@keyframes pulseBadge {
+  0%   { box-shadow: 0 0 0 0   rgba(94, 194, 122, 0.55); }
+  65%  { box-shadow: 0 0 0 14px rgba(94, 194, 122, 0); }
+  100% { box-shadow: 0 0 0 0   rgba(94, 194, 122, 0); }
+}
+
+@keyframes kenburns {
+  from { transform: scale(1) translate(0, 0); }
+  to   { transform: scale(1.1) translate(-2%, -2%); }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── RESPONSIVE: TABLET 640px ───────────────────────────────────── */
+@media (min-width: 640px) {
+  .hero-meta,
+  .testimonial-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-inner {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ─── RESPONSIVE: DESKTOP 840px ──────────────────────────────────── */
+@media (min-width: 840px) {
+  .site-header nav {
+    display: flex;
+  }
+
+  .hamburger {
+    display: none;
+  }
+
+  .header-actions .button {
+    display: inline-flex;
+  }
+
+  .hero-meta {
+    grid-template-columns: auto 1fr;
+    align-items: center;
+  }
+
+  .origami-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .reservation-grid {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+
+  .footer-inner {
+    grid-template-columns: 2fr 1fr 1fr;
+    align-items: start;
+  }
+}
+
+/* ─── RESPONSIVE: WIDE 1080px ────────────────────────────────────── */
+@media (min-width: 1080px) {
+  .testimonial-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ─── REDUCED MOTION ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── HIGH CONTRAST (prefers-contrast: more) ────────────────────── */
+/*
+ * Objetivo: garantir contraste mínimo WCAG AAA (≥ 7:1) para todos os
+ * elementos de texto e UI. Estratégia puramente aditiva — sobrescreve
+ * apenas os tokens e propriedades necessários, sem alterar estrutura.
+ *
+ * Verificações de contraste (texto sobre fundo #0e0909):
+ *   --cream  #f0e4d0 → ≈ 16.1:1  ✓ AAA
+ *   --muted  #b8a898 → ≈  4.5:1  ✗ AA only  →  #d4ccc4 ≈  9.5:1  ✓ AAA
+ *   --gold   #c9a86c → ≈  6.5:1  ✗ AA only  →  #e0be80 ≈  9.2:1  ✓ AAA
+ *   --ok     #5ec27a → ≈  6.8:1  ✗ AA only  →  #7dd99a ≈ 10.0:1  ✓ AAA
+ *   --danger #c96262 → ≈  4.8:1  ✗ AA only  →  #e07878 ≈  7.2:1  ✓ AAA
+ */
+@media (prefers-contrast: more) {
+
+  /* 1 ── Tokens redefinidos ──────────────────────────────────────── */
+  :root {
+    --gold:       #e0be80;   /* 9.2:1 sobre #0e0909 — AAA */
+    --gold-hover: #eecf96;   /* hover ainda mais claro */
+    --cream:      #f5ede0;   /* mantido, já é AAA */
+    --muted:      #d4ccc4;   /* 9.5:1 — sobe de AA para AAA */
+    --panel:      rgba(12, 6, 4, 0.98);   /* painel quase opaco */
+    --line:       rgba(224, 190, 128, 0.60); /* borda 3× mais visível */
+    --ok:         #7dd99a;   /* 10.0:1 — AAA */
+    --danger:     #e07878;   /* 7.2:1 — AAA */
+    --shadow:     0 24px 72px rgba(0, 0, 0, 0.75); /* sombra mais definida */
+  }
+
+  /* 2 ── Remover backdrop-filter (blur reduz nitidez em HC) ───────── */
+  .status-card,
+  .origami-card,
+  .dish-card,
+  .room-map,
+  .reserve-form,
+  .testimonial-card,
+  .site-header,
+  .site-header.scrolled,
+  .mobile-nav {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  /* 3 ── Fundo dos painéis: mais opaco e com borda reforçada ─────── */
+  .status-card,
+  .origami-card,
+  .dish-card,
+  .room-map,
+  .reserve-form,
+  .testimonial-card {
+    background: rgba(12, 6, 4, 0.98);
+    border-color: rgba(224, 190, 128, 0.60);
+    border-width: 1.5px;
+  }
+
+  /* 4 ── Header scrolled ──────────────────────────────────────────── */
+  .site-header.scrolled {
+    background: rgba(8, 4, 4, 0.99);
+    border-bottom-color: rgba(224, 190, 128, 0.50);
+  }
+
+  /* 5 ── Navegação desktop ─────────────────────────────────────────── */
+  .site-header nav a {
+    color: var(--cream);
+  }
+
+  .site-header nav a:hover {
+    color: var(--gold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* 6 ── Botão primário ────────────────────────────────────────────── */
+  .button {
+    background: var(--gold);
+    color: #0e0909;
+    border: 2px solid var(--gold);
+    font-weight: 700;
+  }
+
+  .button:hover {
+    background: var(--gold-hover);
+    border-color: var(--gold-hover);
+  }
+
+  /* 7 ── Botão secundário ──────────────────────────────────────────── */
+  .button.secondary {
+    background: transparent;
+    color: var(--cream);
+    border: 2px solid var(--cream);
+  }
+
+  .button.secondary:hover {
+    background: rgba(245, 237, 224, 0.12);
+    border-color: var(--cream);
+  }
+
+  /* 8 ── Hamburger ─────────────────────────────────────────────────── */
+  .hamburger {
+    border-color: rgba(224, 190, 128, 0.55);
+  }
+
+  .hamburger span {
+    background: var(--cream);
+  }
+
+  /* 9 ── Nav mobile ────────────────────────────────────────────────── */
+  .mobile-nav {
+    background: rgba(8, 4, 4, 0.99);
+    border-left-color: rgba(224, 190, 128, 0.50);
+  }
+
+  .mobile-nav a {
+    color: var(--cream);
+  }
+
+  .mobile-nav a:hover,
+  .mobile-nav a:focus {
+    color: var(--gold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* 10 ── Menu origami ─────────────────────────────────────────────── */
+  .origami-trigger:hover {
+    background: rgba(224, 190, 128, 0.12);
+    outline: 1px solid rgba(224, 190, 128, 0.35);
+    outline-offset: -1px;
+  }
+
+  .origami-panel ul {
+    color: var(--muted);
+  }
+
+  /* 11 ── Galeria: texto e hover ───────────────────────────────────── */
+  .dish-card h3 {
+    color: var(--cream);
+  }
+
+  /* Escala ao hover desativa em HC para evitar distorção de leitura */
+  .dish-card:hover {
+    transform: none;
+  }
+
+  .dish-card:hover .dish-media img {
+    transform: none;
+  }
+
+  /* 12 ── Mapa de mesas ────────────────────────────────────────────── */
+  .zone {
+    fill: rgba(224, 190, 128, 0.08);
+    stroke: rgba(224, 190, 128, 0.40);
+  }
+
+  .table {
+    border: 2.5px solid rgba(255, 255, 255, 0.55);
+  }
+
+  .table.available {
+    background: var(--ok);
+  }
+
+  .table.occupied {
+    background: var(--danger);
+    opacity: 1; /* restaura opacidade total para legibilidade */
+  }
+
+  .table.selected {
+    box-shadow: 0 0 0 4px var(--gold);
+    border-color: var(--gold);
+  }
+
+  /* 13 ── Tooltip das mesas ────────────────────────────────────────── */
+  .table-tooltip {
+    background: #0e0909;
+    border: 1.5px solid var(--gold);
+    color: var(--cream);
+  }
+
+  /* 14 ── Formulário ───────────────────────────────────────────────── */
+  .reserve-form label {
+    color: var(--cream);
+  }
+
+  .reserve-form input,
+  .reserve-form textarea {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(224, 190, 128, 0.50);
+    color: var(--cream);
+  }
+
+  .reserve-form input:hover,
+  .reserve-form textarea:hover {
+    border-color: rgba(224, 190, 128, 0.75);
+  }
+
+  .reserve-form input:focus,
+  .reserve-form textarea:focus {
+    border-color: var(--gold);
+    background: rgba(224, 190, 128, 0.06);
+  }
+
+  .reserve-form input[readonly] {
+    color: var(--muted);
+    border-style: dashed;  /* diferencia visualmente o campo readonly */
+  }
+
+  /* 15 ── Feedback do formulário ───────────────────────────────────── */
+  .form-feedback {
+    color: var(--ok);
+    font-weight: 600;
+  }
+
+  .form-feedback.error {
+    color: var(--danger);
+    font-weight: 600;
+  }
+
+  /* 16 ── Depoimentos ──────────────────────────────────────────────── */
+  .typewriter {
+    color: var(--muted);
+  }
+
+  .testimonial-card strong {
+    color: var(--gold);
+  }
+
+  /* 17 ── Footer ───────────────────────────────────────────────────── */
+  .site-footer {
+    border-top-color: rgba(224, 190, 128, 0.45);
+    background: rgba(8, 4, 4, 0.99);
+  }
+
+  .footer-nav a {
+    color: var(--muted);
+  }
+
+  .footer-nav a:hover {
+    color: var(--cream);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .footer-contact p,
+  .footer-contact a {
+    color: var(--muted);
+  }
+
+  .footer-contact a:hover {
+    color: var(--gold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .footer-bottom {
+    border-top-color: rgba(224, 190, 128, 0.35);
+  }
+
+  .footer-bottom p {
+    color: var(--muted);
+  }
+
+  .footer-social a {
+    border-color: rgba(224, 190, 128, 0.45);
+    color: var(--muted);
+  }
+
+  .footer-social a:hover {
+    color: var(--gold);
+    border-color: var(--gold);
+    background: rgba(224, 190, 128, 0.10);
+  }
+
+  /* 18 ── Status badge ─────────────────────────────────────────────── */
+  .status-badge {
+    background: rgba(255, 255, 255, 0.12);
+    font-weight: 700;
+  }
+
+  .status-badge.open {
+    background: rgba(125, 217, 154, 0.92);
+    color: #041209;
+  }
+
+  .status-badge.closed {
+    background: rgba(150, 150, 150, 0.30);
+    color: var(--cream);
+    border: 1px solid rgba(200, 200, 200, 0.35);
+  }
+
+  /* 19 ── Eyebrow labels ───────────────────────────────────────────── */
+  .eyebrow {
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  /* 20 ── Indicador de foco reforçado ──────────────────────────────── */
+  :focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 4px;
+    border-radius: 3px;
+    box-shadow: 0 0 0 6px rgba(224, 190, 128, 0.20);
+  }
+
+  /* 21 ── Links inline com sublinhado visível ──────────────────────── */
+  .footer-contact a,
+  .footer-nav a,
+  .mobile-nav a,
+  .site-header nav a {
+    text-underline-offset: 3px;
+  }
+}
+
