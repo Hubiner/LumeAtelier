@@ -43,6 +43,10 @@ git clone https://github.com/usuario/lume-atelier.git
 cd lume-atelier
 ```
 
+## Autor
+
+Projeto preparado para apresentação pública de portfólio.
+
 ## Licença
 
 ~~
